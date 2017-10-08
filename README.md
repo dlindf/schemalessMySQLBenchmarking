@@ -1,3 +1,6 @@
+# Repository
+This repository is the result of a bachelor degree project. The goal of the project was to implement and test different schemaless ways of using a relational database. Docker were used to make two containers, one for MySQL and one for the benchmarking tool YCSB. This repo contains all the nessesary files to reproduce the performance test done in…
+
 # ycsb-test-bed
 Docker files and scripts for performance testing some schemaless storage methods on MySQL
 
