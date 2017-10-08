@@ -1,0 +1,67 @@
+#/bin/bash!
+
+iterations=$1
+
+
+./benchmark ycsb_osc workloada $iterations
+cp outrun.csv results/oscArun.csv
+cp outload.csv results/oscAload.csv
+
+./benchmark ycsb_osc workloadb $iterations 
+cp outrun.csv results/oscBrun.csv
+cp outload.csv results/oscBload.csv
+
+./benchmark ycsb_osc workloadc $iterations
+cp outrun.csv results/oscCrun.csv
+cp outload.csv results/oscCload.csv
+
+./benchmark ycsb_osc workloadd $iterations 
+cp outrun.csv results/oscDrun.csv
+cp outload.csv results/oscDload.csv
+
+./benchmark ycsb_osc workloadf $iterations 
+cp outrun.csv results/oscFrun.csv
+cp outload.csv results/oscFload.csv
+
+
+./benchmark ycsb_json workloada $iterations 
+cp outrun.csv results/jsonArun.csv
+cp outload.csv results/jsonAload.csv
+
+./benchmark ycsb_json workloadb $iterations 
+cp outrun.csv results/jsonBrun.csv
+cp outload.csv results/jsonBload.csv
+
+./benchmark ycsb_json workloadc $iterations 
+cp outrun.csv results/jsonCrun.csv
+cp outload.csv results/jsonCload.csv
+
+./benchmark ycsb_json workloadd $iterations 
+cp outrun.csv results/jsonDrun.csv
+cp outload.csv results/jsonDload.csv
+
+./benchmark ycsb_json workloadf $iterations 
+cp outrun.csv results/jsonFrun.csv
+cp outload.csv results/jsonFload.csv
+
+
+./benchmark ycsb_key-value workloada $iterations 
+cp outrun.csv results/kvArun.csv
+cp outload.csv results/kvAload.csv
+
+./benchmark ycsb_key-value workloadb $iterations 
+cp outrun.csv results/kvBrun.csv
+cp outload.csv results/kvBload.csv
+
+./benchmark ycsb_key-value workloadc $iterations 
+cp outrun.csv results/kvCrun.csv
+cp outload.csv results/kvCload.csv
+
+./benchmark ycsb_key-value workloadd $iterations 
+cp outrun.csv results/kvDrun.csv
+cp outload.csv results/kvDload.csv
+
+./benchmark ycsb_key-value workloadf $iterations 
+cp outrun.csv results/kvFrun.csv
+cp outload.csv results/kvFload.csv
+

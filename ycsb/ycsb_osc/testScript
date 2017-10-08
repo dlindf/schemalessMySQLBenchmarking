@@ -1,0 +1,17 @@
+#/bin/bash!
+
+# $1 = container name, $2 = workload
+
+echo "Starting test for container $1 with workload $2"
+
+# Initialize database
+#echo "initialize DB"
+#docker exec $1 java InitDB
+
+# load database
+#echo "Load the database"
+#docker exec $1 ./bin/ycsb load jdbc -P workloads/$2 -P db.properties
+
+# performance test
+#echo "perform test"
+docker exec $1 ./bin/ycsb run jdbc -P workloads/$2 -P db.properties

@@ -1,0 +1,45 @@
+#/bin/bash!
+BASEDIR=$PWD
+# $1 = container name, $2 = workload, $3 = iterations, $4 = fieldcount, $5 = workload size, $6 = fields, $7 = data size
+
+./monitor $1 &
+
+# do one "warmup run"
+docker exec $1 java InitDB
+docker exec $1 ./bin/ycsb load jdbc -P workloads/$2 -P db.properties
+docker exec $1 ./bin/ycsb run jdbc -P workloads/$2 -P db.properties
+
+# for number of iterations
+RESULT=""
+COUNTER=0
+while [ $COUNTER -lt $3 ]; do
+	
+	docker exec $1 java InitDB
+
+	docker exec $1 ./bin/ycsb load jdbc -P workloads/$2 -P db.properties | grep '\[' > tmpload.csv
+
+	if [ $COUNTER -eq 0 ]
+	then
+		cut -d , -f 1 tmpload.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' > outload.csv
+		cut -d , -f 2 tmpload.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' >> outload.csv
+	fi
+	cut -d , -f 3 tmpload.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' | tr -d '[:blank:]' >> outload.csv
+
+	# start test
+	docker exec $1 ./bin/ycsb run jdbc -P workloads/$2 -P db.properties | grep '\[' > tmprun.csv
+
+	# end monitor
+	# handle result
+	# if first
+	if [ $COUNTER -eq 0 ]
+	then
+		cut -d , -f 1 tmprun.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' > outrun.csv
+		cut -d , -f 2 tmprun.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' >> outrun.csv
+	fi
+	cut -d , -f 3 tmprun.csv | tr '\r\n' ',' | sed -e 's/,$/\n/' | tr -d '[:blank:]' >> outrun.csv
+
+
+	let COUNTER=COUNTER+1
+done
+
+kill %1

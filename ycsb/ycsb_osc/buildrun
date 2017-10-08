@@ -1,0 +1,9 @@
+#/bin/bash!
+#sudo docker run -d --name=test-mysql --env="MYSQL_ROOT_PASSWORD=root" -p 3306:3306 mysql
+
+docker stop $1
+docker rm $1
+docker build -t $1 --build-arg type=$1 .
+docker run -itd --cpuset-cpus=1 --name=$1 --link mysql:mysql $1
+
+#docker run --name=$1 --link mysql:mysql $1
